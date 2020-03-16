@@ -1,0 +1,67 @@
+// Font
+$mainFont : "ProximaRegular",
+sans-serif;
+$accent: #00aaff;
+// Size
+$mainFontColor : #101010;
+$mainFontSize : 16px;
+$mainFontWeight : 400;
+$mainLineHeight : 1.4;
+
+$grid-gutter-width: 20px;
+$grid-columns: 12;
+$grid-breakpoints: (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px, xxl: 1440px, );
+$container-max-widths: (sm: 540px, md: 720px, lg: 960px, xl: 1180px, );
+
+$gutter: $grid-gutter-width;
+
+$hamburger-padding-x : 0;
+$hamburger-padding-y : 0;
+$hamburger-layer-width : 25px;
+$hamburger-layer-height : 2px;
+$hamburger-layer-spacing : 5px;
+
+// progress
+// Colours
+$color-marker: #80c7ec !default;
+$color-marker-active: #fff !default;
+$color-marker-complete: #fff !default;
+$color-marker-hover: #fff !default;
+
+$color-path: rgba(255, 255, 255, 0.5) !default;
+$color-path-complete: #fff !default;
+
+$color-text: #20242e !default;
+$color-marker-text: #20242e !default;
+
+
+// Sizing
+$marker-size: 22px !default;
+$marker-size-half: ceil($marker-size / 2);
+$marker-size-third: ceil($marker-size / 3);
+$marker-size-quarter: ceil($marker-size / 4);
+$marker-spacing: 8px !default;
+
+$path-height: 4px !default;
+$path-position: $marker-size-half - ($path-height / 2);
+
+$text-padding: 8px !default;
+$text-padding-X: $marker-size-third !default;
+$text-padding-Y: $text-padding !default;
+$text-padding--vertical: $text-padding*1.5 !default;
+
+$progress-tracker-padding: 4px !default;
+
+
+// Dots connecting text to markers
+$dot-size: 12px;
+$dot-size-half: $dot-size/2;
+$dot-spacing: 6px;
+$dot-levels: 12;
+
+$color-dot: $color-path;
+
+
+// Animations/Transitions
+$animation-duration: 0.3s !default;
+$ripple-color: rgba(0, 0, 0, 0.3) !default;
