@@ -13,6 +13,6 @@ export default [
   {
     path: '/login',
     view: 'Login',
-    name: 'Вход',
+    name: 'login',
   },
 ]

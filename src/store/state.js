@@ -34,33 +34,12 @@ export default {
     href: '#',
     code: '000'
   },
-  blacklisted: false,
   loading: false,
   refreshingState: false,
-  unauthenticated: true,
-  roles: {
-    'admin': {
-      color: '#1E88E5',
-      name: 'Администратор'
-    },
-    'super_admin': {
-      color: '#5E35B1',
-      name: 'Главный администратор'
-    },
-    'unknown': {
-      color: '#F44336',
-      error: true,
-      name: 'Пожалуйста авторизуйтесь'
-    },
-    'guest': {
-      color: '#FBC02D',
-      name: 'Гость'
-    }
-  },
+  authenticated: true,
   user: {
     name: 'Неизвестный',
     email: 'no-know@mail.what',
     role: 'unknown'
   },
-  urls: []
 }

@@ -38,10 +38,15 @@
       CoreView: () => import('@/components/core/View'),
     },
     created: function() {
-      this.$http.get(this.$store.state.apiuri + '/auth/me')
-      .then(res => {
-        console.log(res)
-      })
+      if(localStorage.getItem('access_token') !== ""){
+        this.$http.get(this.$store.state.apiuri + '/auth/me')
+        .then(res => {
+          console.log(res)
+          if(res.status){
+            this.$store.commit('SET_USER', res.data)
+          }
+        })
+      }
     },
     computed: {
       ...mapState(['codes']),

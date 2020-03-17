@@ -15,22 +15,16 @@ export default {
     state.popup = Object.assign(state.popup, playload)
   },
   SET_LOADING (state, playload) {
-    state.loading = true
-  },
-  UNSET_LOADING (state, playload) {
-    state.loading = false
+    state.loading = playload
   },
   SET_USER (state, playload) {
     state.user = Object.assign(state.user, playload)
   },
   SET_AUTHENTICATED_STATUS (state, playload) {
-    state.unauthenticated = playload
+    state.authenticated = playload
   },
   SET_REFRESHING_STATE (state, playload) {
     state.refreshingState = playload
-  },
-  SET_BLACKLISTED (state, playload) {
-    state.blacklisted = playload
   },
   SET_URLS (state, playload) {
     state.urls = playload

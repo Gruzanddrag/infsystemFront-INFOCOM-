@@ -30,12 +30,12 @@
             <v-btn
               v-on="on"
               text>
-              {{roles[user.role].name}}, {{user.name}}
+              {{`${user.surname} ${user.name} ${user.patronymic}`}}
             </v-btn>
           </template>
           <v-list>
             <v-list-item
-              v-if="!$store.state.unauthenticated"
+              v-if="$store.state.authenticated"
               @click="logout"
             >
               <v-list-item-title>Выйти</v-list-item-title>
@@ -96,6 +96,8 @@
     methods: {
       ...mapMutations('app', ['setDrawer', 'toggleDrawer']),
       logout() {
+        localStorage.setItem('access_token', "")
+        this.$router.push('/login')
       },
       onClick () {
         this.setDrawer(!this.$store.state.app.drawer)

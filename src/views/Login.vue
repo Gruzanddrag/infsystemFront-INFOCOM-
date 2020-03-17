@@ -5,9 +5,9 @@
   >
       <v-row class="justify-center flex-column align-center">
         <v-col lg="4" xl="3" cols="12">
-          <h2 class="mb-4">Добро пожаловать в систему управления сайтом<br> группы компаний <span style="color: #00699e">Экспертиза</span></h2>
-          <v-card class="pa-12 auth-card">
-            <v-card-title>Вход</v-card-title>
+          <h2 class="mb-4 white--text">Добро пожаловать в систему управления учебно-методической деятельности ВУЗа</h2>
+          <v-card dark class="pa-12 auth-card">
+            <h1>Войти в систему</h1>
             <v-form class="ma-auto"
                     ref="form"
                     v-model="valid"
@@ -17,11 +17,13 @@
                 v-model="email"
                 :rules="emailRules"
                 label="E-mail"
+                color="primary"
                 required
               ></v-text-field>
 
               <v-text-field
                 v-model="password"
+                color="primary"
                 :append-icon="showPass ? 'mdi-eye' : 'mdi-eye-off'"
                 :rules="passRules"
                 :type="showPass ? 'text' : 'password'"
@@ -48,7 +50,7 @@
   import Axios from 'axios'
   import {mapState, mapMutations} from "vuex";
   export default {
-    data () {
+    data (vc) {
       return {
         valid: false,
         showPass: false,
@@ -69,24 +71,25 @@
     },
     methods: {
       submit () {
-        let form = new FormData()
-        form.append('email',this.email)
-        form.append('password', this.password)
-        Axios.post(this.apiuri + '/api/auth/login', form)
-        .then(response => {
-          console.log(response)
-          if(response.data.access_token){
-            this.$store.commit('SET_AUTHENTICATED_STATUS',false)
-            localStorage.setItem('access_token', response.data.access_token);
-            this.$store.commit('SET_LOADING')
-            this.$router.push('/')
-          }
-        }).catch(err => {
-          this.THROW_POPUP({
-            'text': 'Введены неверные данные',
-            'code': '001'
+        if(this.$refs.form.validate()){
+          this.$http.post(this.apiuri + '/auth/login', {
+            email: this.email,
+            password: this.password
           })
-        })
+          .then(res => {
+            if(!res.status){
+              this.$store.commit('THROW_POPUP', {
+                code: '001',
+                text: 'Введены неверные данные'
+              })
+            } else {
+              localStorage.setItem('access_token', res.data.access_token);
+              console.log(res.data.user)
+              this.$store.commit('SET_USER', res.data.user)
+              this.$router.push('/')
+            }
+          })
+        }
       },
       ...mapMutations(['THROW_POPUP'])
     },
