@@ -63,7 +63,7 @@
     data: () => ({
       links: [
         {
-          to: '/articles',
+          to: '/umk',
           icon: 'mdi-clipboard-file-outline',
           text: 'УМК',
         },

@@ -77,17 +77,19 @@
             password: this.password
           })
           .then(res => {
-            if(!res.status){
-              this.$store.commit('THROW_POPUP', {
-                code: '001',
-                text: 'Введены неверные данные'
-              })
-            } else {
+              console.log(res)
               localStorage.setItem('access_token', res.data.access_token);
               console.log(res.data.user)
               this.$store.commit('SET_USER', res.data.user)
               this.$router.push('/')
-            }
+          })
+          .catch(err => {
+            console.log(err)
+              this.$store.commit('THROW_POPUP', {
+                code: '001',
+                text: 'Введены неверные данные'
+              })
+
           })
         }
       },

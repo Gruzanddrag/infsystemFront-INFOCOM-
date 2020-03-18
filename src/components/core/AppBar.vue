@@ -7,7 +7,7 @@
     height="88"
     dark
   >
-    <v-toolbar-title class="tertiary--text font-weight-light align-self-center">
+    <v-toolbar-title class="white--text font-weight-light align-self-center">
       <v-btn
         v-if="responsive"
         icon

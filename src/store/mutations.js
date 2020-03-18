@@ -26,7 +26,7 @@ export default {
   SET_REFRESHING_STATE (state, playload) {
     state.refreshingState = playload
   },
-  SET_URLS (state, playload) {
-    state.urls = playload
+  SET_ADMIN_STATE (state, playload) {
+    state.isAdmin = playload
   },
 }

@@ -15,4 +15,9 @@ export default [
     view: 'Login',
     name: 'login',
   },
+  {
+    path: '/umk',
+    view: 'UMK/Umk',
+    name: 'Учебно-Методические комплексы',
+  },
 ]

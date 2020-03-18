@@ -1,5 +1,5 @@
 // https://vuex.vuejs.org/en/getters.html
 
 export default {
-  apiuri: state => state.apiuri,
+  isAdmin: state => state.user.role === 'admin',
 }
