@@ -3,6 +3,13 @@ import store from '../store'
 import router from '../router'
 
 
+function logout(){
+    store.commit('SET_AUTHENTICATED_STATUS', false);
+    localStorage.setItem('access_token', "")
+    router.push('/login')
+}
+
+
 var inst = Axios.create()
   
 inst.interceptors.response.use(response => {
@@ -11,14 +18,17 @@ inst.interceptors.response.use(response => {
     return response.data
 }, error => {
     let response = error.response
-    let res = response.data
+    let res = response ? response.data : null
+    if(!res){
+        console.dir(error)
+        return Promise.reject(error)
+    }
+    let tokenFromRequest = error.config.headers['Authorization'].split(' ')[1]
     if(res.data.name === "Unauthorized"){
         if(localStorage.getItem('access_token') === ""){
-            store.commit('SET_AUTHENTICATED_STATUS', false);
-            localStorage.setItem('access_token', "")
-            router.push('/login')
+            logout()
         }
-        if(!store.state.refreshingState){
+        if(!store.state.refreshingState && localStorage.getItem('access_token') === tokenFromRequest ){
             store.commit('SET_REFRESHING_STATE', true);
             store.commit('SET_AUTHENTICATED_STATUS', false);
             let reponseConfig = error.config
@@ -38,13 +48,12 @@ inst.interceptors.response.use(response => {
             })
             .catch(_ => {
                 store.commit('SET_LOADING', false)  
-                store.commit('SET_AUTHENTICATED_STATUS', false);
-                localStorage.setItem('access_token', "")
-                router.push('/login')   
+                logout()
             })
-        } else {
-            reponseConfig.baseUrl = undefined
-            return inst.request(reponseConfig)
+        } else if(store.state.authenticated){
+            let conf = error.config
+            conf.baseUrl = undefined
+            return inst.request(conf)
         }
     }
     store.commit('SET_LOADING', false)
@@ -54,7 +63,7 @@ inst.interceptors.response.use(response => {
 inst.interceptors.request.use(request => {
     store.commit('SET_LOADING', true)
     request.headers['Authorization'] = `Bearer ${localStorage.getItem('access_token')}`
-    // console.log(request)
+    // console.log(`uri: ${request.url}  token:  ${request.headers["Authorization"]}`)
     return request
 }, error => {
     return Promise.reject(error);

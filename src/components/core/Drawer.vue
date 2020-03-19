@@ -63,9 +63,14 @@
     data: () => ({
       links: [
         {
-          to: '/umk',
+          to: '/umks',
           icon: 'mdi-clipboard-file-outline',
           text: 'УМК',
+        },
+        {
+          to: '/disciplines',
+          icon: 'mdi-book-open-outline',
+          text: 'Дисциплины',
         },
       ],
     }),

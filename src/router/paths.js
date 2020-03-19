@@ -16,8 +16,23 @@ export default [
     name: 'login',
   },
   {
-    path: '/umk',
-    view: 'UMK/Umk',
+    path: '/umks',
+    view: 'UMK/Umks',
     name: 'Учебно-Методические комплексы',
+  },
+  {
+    path: '/disciplines',
+    view: 'Discipline/Disciplines',
+    name: 'Дисциплины',
+  },
+  {
+    path: '/umk/:id',
+    view: 'UMK/Umk',
+    name: 'Редактирование УМК'
+  },
+  {
+    path: '/umk/',
+    view: 'UMK/Umk',
+    name: 'Создание УМК'
   },
 ]
