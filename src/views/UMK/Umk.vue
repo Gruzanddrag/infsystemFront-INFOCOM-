@@ -70,14 +70,44 @@
                     Требования к студенту
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn icon>
+                <v-btn @click="addRequirement" icon>
                   <v-icon large>
                     mdi-plus
                   </v-icon>
                 </v-btn>
               </v-toolbar>
               <v-card-text>
-                
+                <div v-for="(item, i) in umk.umkStudentRequirements" :key="i">
+                  <v-row justify="center" class="align-center">
+                    <v-col cols=3>
+                      <v-select
+                        outlined
+                        hide-details
+                        v-model="item.studentRequiementTypeId"
+                        :items="selectRequirementTypes"
+                        label="Тип требования"
+                      ></v-select>
+                    </v-col>
+                    <v-col cols=8>
+                        <v-textarea
+                          hide-details
+                          auto-grow
+                          outlined
+                          rows="1"
+                          v-model="item.studentRequirementText"
+                          label="Требование"
+                        ></v-textarea>
+                    </v-col>
+                    <v-col cols=1>
+                      <v-btn icon @click="umk.umkStudentRequirements.splice(i, 1)">
+                        <v-icon>
+                          mdi-close
+                        </v-icon>
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                  <v-divider class="mb-6"></v-divider>
+                </div>
               </v-card-text>
             </v-card>
           </v-card-text>
@@ -114,7 +144,7 @@ import TextEditor from '../../components/text-editor/TextEditor'
       if(this.$route.params.id){
         this.$http.get(this.apiuri + `/v1/umk/${this.$route.params.id}`)
         .then(res => {
-          this.umk = res.data
+          this.umk = Object.assign(this.umk,res.data ) 
         })
         this.$http.get(`${this.$store.state.apiuri}/v1/student-requirement-type`)
         .then(res => {
@@ -141,6 +171,13 @@ import TextEditor from '../../components/text-editor/TextEditor'
           url: `${this.$store.state.apiuri}/v1/umk` + (this.$route.params.id ? `/${this.$route.params.id}` : ''),
           method: method,
           data: this.umk
+        })
+      },
+      addRequirement() {
+        console.log(this.umk)
+        this.umk.umkStudentRequirements.push({
+          studentRequirementText: '',
+          studentRequirementTypeId: 1,
         })
       }
     }
