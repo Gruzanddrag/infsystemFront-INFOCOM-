@@ -3,8 +3,8 @@ import { exception } from "vue-analytics";
 // https://vuex.vuejs.org/en/state.html
 
 export default {
-  // apiuri: 'http://localhost:8081/backend/web',
-  apiuri: 'http://infosystem-infocom-:8081/web',
+  apiuri: 'http://localhost:8081/backend/web',
+  // apiuri: 'http://infosystem-infocom-:8081/web',
   editorText: '',
   codes: {
     // заглушка

@@ -57,7 +57,7 @@
             <v-divider inset class="my-6"></v-divider>
             <v-card class="mx-6">
               <v-card-title>
-                Юридичсеское обоснование
+                Юридическое обоснование
               </v-card-title>
               <v-card-text class="card-text-editor">
                 <text-editor :text.sync="umk.umkLawJustification"></text-editor>
@@ -77,13 +77,13 @@
                 </v-btn>
               </v-toolbar>
               <v-card-text>
-                <div v-for="(item, i) in umk.umkStudentRequirements" :key="i">
-                  <v-row justify="center" class="align-center">
+                <div v-for="(item, i) in umkStudentRequirementsFiltered" :key="i" >
+                    <v-row justify="center" class="align-center" >
                     <v-col cols=3>
                       <v-select
                         outlined
                         hide-details
-                        v-model="item.studentRequiementTypeId"
+                        v-model="item.studentRequirementTypeId"
                         :items="selectRequirementTypes"
                         label="Тип требования"
                       ></v-select>
@@ -99,7 +99,7 @@
                         ></v-textarea>
                     </v-col>
                     <v-col cols=1>
-                      <v-btn icon @click="umk.umkStudentRequirements.splice(i, 1)">
+                      <v-btn icon @click="item.deleted = true">
                         <v-icon>
                           mdi-close
                         </v-icon>
@@ -110,6 +110,17 @@
                 </div>
               </v-card-text>
             </v-card>
+            <v-divider inset class="my-6"></v-divider>
+            <v-subheader>Секции УМК</v-subheader>
+            <v-toolbar color="grey lighten-2">
+              <v-toolbar-title>
+                    Управление разделами УМК
+                </v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn @click="addSection">
+                  Добавить раздел
+                </v-btn>
+            </v-toolbar>
           </v-card-text>
         </v-card>
       </v-col>
@@ -130,11 +141,12 @@ import TextEditor from '../../components/text-editor/TextEditor'
     },
     data () {
       return {
+        umkStudentRequirements: [],
+        umkSections: [],
         umk: {
             umkName: '',
             umkLawJustification: '',
             umkPurpose: '',
-            umkStudentRequirements: []
         },
         requirementTypes: [],
         collapes: false
@@ -144,7 +156,11 @@ import TextEditor from '../../components/text-editor/TextEditor'
       if(this.$route.params.id){
         this.$http.get(this.apiuri + `/v1/umk/${this.$route.params.id}`)
         .then(res => {
-          this.umk = Object.assign(this.umk,res.data ) 
+          this.umk = Object.assign(this.umk,res.data)
+          this.umkStudentRequirements = this.umk.umkStudentRequirements.map(el => {
+            el.deleted = false
+            return el
+          })
         })
         this.$http.get(`${this.$store.state.apiuri}/v1/student-requirement-type`)
         .then(res => {
@@ -162,11 +178,15 @@ import TextEditor from '../../components/text-editor/TextEditor'
           }
         })
         return arr
+      },
+      umkStudentRequirementsFiltered: function() {
+        return this.umkStudentRequirements.filter(x => !x.deleted)
       }
     },
     methods: {
       save(){
         let method = this.$route.params.id ? 'put' : 'post'
+        this.umk.umkStudentRequirements = this.umkStudentRequirements
         this.$http.request({
           url: `${this.$store.state.apiuri}/v1/umk` + (this.$route.params.id ? `/${this.$route.params.id}` : ''),
           method: method,
@@ -175,10 +195,14 @@ import TextEditor from '../../components/text-editor/TextEditor'
       },
       addRequirement() {
         console.log(this.umk)
-        this.umk.umkStudentRequirements.push({
+        this.umkStudentRequirements.push({
           studentRequirementText: '',
           studentRequirementTypeId: 1,
+          deleted: false,
         })
+      },
+      addSection(){
+        console.log('brew not bombs')
       }
     }
   }
@@ -198,7 +222,7 @@ import TextEditor from '../../components/text-editor/TextEditor'
   .card-text-editor {
     padding: 20px !important;
     min-height: 150px;
-    background:rgb(241, 241, 241);
+    background:rgb(249, 249, 249);
   }
 
 </style>
