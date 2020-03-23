@@ -45,6 +45,34 @@
           </template>
           <template v-slot:item.umkId = "{ item, header, value }">
             <div class="d-flex align-center">
+               <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                    <v-btn
+                    color="blue"
+                     v-on="on"
+                     @click="confirm(umkId)"
+                     icon>
+                        <v-icon large="">
+                          mdi-check-all
+                        </v-icon>
+                    </v-btn>
+                </template>
+                <span>Утвердить!</span>
+              </v-tooltip>
+               <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                    <v-btn
+                    color="red"
+                     v-on="on"
+                     @click="deny(umkId)"
+                     icon>
+                        <v-icon large>
+                          mdi-close
+                        </v-icon>
+                    </v-btn>
+                </template>
+                <span>Отклонить</span>
+              </v-tooltip>
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
                     <v-btn
@@ -123,6 +151,15 @@ import { mapState } from 'vuex'
         this.$http.get(this.$store.state.apiuri + "/v1/umk")
         .then(res => {
           this.items = res.data
+        })
+      },
+      confirm(umkId){
+        this.$http.get(`${this.$store.state.apiuri}/v1/umk/confirm`,{
+          params: {
+            id: umkId
+          }
+        }).then(_ => {
+          this.refresh()
         })
       }
     },

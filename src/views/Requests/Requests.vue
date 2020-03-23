@@ -66,7 +66,7 @@
                 </v-btn>
                 <v-btn
                   color="red"
-                  :disabled="item.requestStatusId === 3"
+                  :disabled="item.requestStatusId === 3 || item.requestStatusId === 4"
                   @click="deny(value)"
                   text>
                   Отказать
@@ -83,7 +83,7 @@
                 <v-btn
                   color="red"
                   @click="deny(value)"
-                  :disabled="item.requestStatusId === 3 || item.requestStatusId < 2"
+                  :disabled="item.requestStatusId >= 3 || item.requestStatusId < 2"
                   text>
                   Отклонить
                 </v-btn>

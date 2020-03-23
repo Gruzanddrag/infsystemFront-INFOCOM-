@@ -197,7 +197,7 @@ import { mapState } from 'vuex'
             this.refresh()
           })
         } else if(this.mode === 'edit'){
-          console.l0og
+          delete parametras.password
           this.$http.put(this.$store.state.apiuri + '/auth/update', parametras, {
             params: {
               id: userId

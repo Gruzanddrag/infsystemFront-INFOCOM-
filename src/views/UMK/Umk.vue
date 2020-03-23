@@ -712,7 +712,7 @@ import { roleChekerMixin } from '../../mixins/roleCheckerMixin'
           sectionDescription: 'Описание занятий раздела, что будет выполняться, что будет на лекциях и так далее',
           isShown: true,
           deleted: false,
-          sectionResource: [],
+          resources: [],
           chosenDiscipline: [],
           chosenResource: []
         })
@@ -723,7 +723,8 @@ import { roleChekerMixin } from '../../mixins/roleCheckerMixin'
             disciplineId: e.value,
             disciplineName: e.text,
             sectionDisciplineHours: 0,
-            sectionDisciplineTypeId: null
+            sectionDisciplineTypeId: null,
+            deleted: false
           })
           section.chosenDiscipline = []
         }
@@ -776,18 +777,19 @@ import { roleChekerMixin } from '../../mixins/roleCheckerMixin'
             text: 'Литература была добавлена в заявку'
           })
       },
-      addNewResourceToRequest(section) {
+      addNewResourceToRequest() {
         this.request.newResources.push({
           ...this.newResource,
           resourceType: this.selectResourceTypes.find(x => x.resourceTypeId === this.newResource.resorceTypeId).text,
           requestType: 'procure'
         })
-        this.newResource.section.resources.push({
+        let section = this.newResource.section
+        delete this.newResource.section
+        section.resources.push({
           ...this.newResource,
           resourceType: this.selectResourceTypes.find(x => x.resourceTypeId === this.newResource.resorceTypeId).text,
           deleted: false
         })
-        this.newResource.section = null
         this.dialogNewResource = false
       },
     }
