@@ -21,7 +21,7 @@
     <v-list-item two-line>
 
       <v-list-item-title class="title">
-        Управление УМК
+        Университет
       </v-list-item-title>
     </v-list-item>
 
@@ -33,7 +33,8 @@
         :key="i"
         class="nav-links"
       >
-        <v-list-item
+        <v-list-item 
+          v-if="link.type === 'link'"
           :to="link.to"
           active-class="primary white--text"
         >
@@ -43,6 +44,30 @@
 
           <v-list-item-title v-text="link.text" />
         </v-list-item>
+        <div v-else>
+          <template v-if="link.show">
+            <v-divider inset v-if="i !== 0"> </v-divider>
+            <v-subheader>{{link.text}}</v-subheader>
+            <v-list>
+                <div
+                  v-for="(child, i) in link.children"
+                  :key="i"
+                  class="nav-links"
+                >
+                  <v-list-item 
+                    :to="child.to"
+                    active-class="primary white--text"
+                  >
+                    <v-list-item-action>
+                      <v-icon>{{ child.icon }}</v-icon>
+                    </v-list-item-action>
+
+                    <v-list-item-title v-text="child.text" />
+                  </v-list-item>
+                </div>
+            </v-list>
+          </template>
+        </div>
       </div>
     </v-list>
   </v-navigation-drawer>
@@ -52,25 +77,89 @@
 // Utilities
   import { mapMutations, mapState } from 'vuex'
   import { mdiDatabaseEdit, mdiFileDocumentBoxMultiple, mdiAlertBox } from '@mdi/js'
+  import { roleChekerMixin } from '../../mixins/roleCheckerMixin'
 
   export default {
+    mixins: [
+      roleChekerMixin
+    ],
     props: {
       opened: {
         type: Boolean,
         default: false,
       },
     },
-    data: () => ({
+    data: (v) => ({
       links: [
         {
-          to: '/umks',
-          icon: 'mdi-clipboard-file-outline',
-          text: 'УМК',
+          type: 'group',
+          show: v.$store.getters.isAdmin ||  v.$store.getters.isDepartmentHead ||  v.$store.getters.isDepartmentEmployee,
+          text: 'Управление УМК',
+          children:[
+            {
+              type: 'link',
+              to: '/umks',
+              icon: 'mdi-clipboard-file-outline',
+              text: 'УМК',
+            },
+            {
+              type: 'link',
+              to: '/disciplines',
+              icon: 'mdi-book-open-outline',
+              text: 'Дисциплины',
+            },
+          ]
         },
         {
-          to: '/disciplines',
-          icon: 'mdi-book-open-outline',
-          text: 'Дисциплины',
+          type: 'group',
+          show: v.$store.getters.isAdmin,
+          text: 'Админ панель',
+          children:[
+              {
+                type: 'link',
+                to: '/discipline-types',
+                icon: 'mdi-clipboard-file-outline',
+                text: 'Типы дисциплин',
+              },
+              {
+                type: 'link',
+                to: '/users',
+                icon: 'mdi-account-multiple',
+                text: 'Управление пользователями',
+              },
+          ]
+        },
+        {
+          type: 'group',
+          show: v.$store.getters.isAdmin ||  v.$store.getters.isDepartmentHead ||  v.$store.getters.isLibraryEmployee ,
+          text: 'Заявки в библиотеку',
+          children:[
+              {
+                type: 'link',
+                to: '/requests',
+                icon: 'mdi-email-send-outline',
+                text: 'Заявки',
+              },
+          ]
+        },
+        {
+          type: 'group',
+          show: v.$store.getters.isAdmin ||  v.$store.getters.isLibraryEmployee ,
+          text: 'Библиотека',
+          children:[
+              {
+                type: 'link',
+                to: '/library',
+                icon: 'mdi-library-shelves',
+                text: 'Библиотека',
+              },
+              {
+                type: 'link',
+                to: '/library-movement',
+                icon: 'mdi-cursor-move',
+                text: 'Движение ресурсов',
+              },
+          ]
         },
       ],
     }),

@@ -39,7 +39,7 @@
             show-select
             v-model="selected"
           >
-          <template v-slot:item.umkStatusId = "{ item, header, value }">
+          <template v-slot:item.umkStatus = "{ item, header, value }">
             <span :style="{ color: (value ? 'inherit' : '#BDBDBD' ) }">{{ value || 'Не задано' }}</span>
               
           </template>
@@ -93,7 +93,7 @@ import { mapState } from 'vuex'
           },
           {
             text: 'Статус',
-            value: 'umkStatusId'
+            value: 'umkStatus'
           },
           {
             text: 'Количество часов',

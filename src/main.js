@@ -6,7 +6,6 @@ import './plugins'
 // import Axios from 'axios'
 import vuetify from './plugins/vuetify'
 import { sync } from 'vuex-router-sync'
-import { tokenHandler } from "./mixins/errorTokenHandlin";
 import myAxios from './utils/myAxios'
 
 sync(store, router)

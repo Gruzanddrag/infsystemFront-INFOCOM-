@@ -26,6 +26,11 @@ export default [
     name: 'Дисциплины',
   },
   {
+    path: '/discipline-types',
+    view: 'DisciplineTypes/DisciplineTypes',
+    name: 'Типы дисциплин',
+  },
+  {
     path: '/umk/:id',
     view: 'UMK/Umk',
     name: 'Редактирование УМК'
@@ -34,5 +39,25 @@ export default [
     path: '/umk/',
     view: 'UMK/Umk',
     name: 'Создание УМК'
+  },
+  {
+    path: '/requests',
+    view: 'Requests/Requests',
+    name: 'Заявки в библиотеку'
+  },
+  {
+    path: '/library',
+    view: 'Library/Library',
+    name: 'Библиотека'
+  },
+  {
+    path: '/library-movement',
+    view: 'Library/LibraryMovement',
+    name: 'Движения ресурсов'
+  },
+  {
+    path: '/users',
+    view: 'Users/Users',
+    name: 'Пользователи'
   },
 ]

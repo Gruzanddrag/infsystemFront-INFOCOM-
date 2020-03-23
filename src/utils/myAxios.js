@@ -53,7 +53,11 @@ inst.interceptors.response.use(response => {
         } else if(store.state.authenticated){
             let conf = error.config
             conf.baseUrl = undefined
-            return inst.request(conf)
+            if(localStorage.getItem('access_token') != null){
+                return inst.request(conf)
+            } else {
+                logout()
+            }
         }
     }
     store.commit('SET_LOADING', false)
