@@ -50,7 +50,7 @@
                     <v-btn
                     color="blue"
                      v-on="on"
-                     @click="confirm(umkId)"
+                     @click="setState('confirm',item.umkId)"
                      icon>
                         <v-icon large="">
                           mdi-check-all
@@ -64,7 +64,7 @@
                     <v-btn
                     color="red"
                      v-on="on"
-                     @click="deny(umkId)"
+                     @click="setState('deny',item.umkId)"
                      icon>
                         <v-icon large>
                           mdi-close
@@ -153,8 +153,8 @@ import { mapState } from 'vuex'
           this.items = res.data
         })
       },
-      confirm(umkId){
-        this.$http.get(`${this.$store.state.apiuri}/v1/umk/confirm`,{
+      setState(state, umkId){
+        this.$http.get(`${this.$store.state.apiuri}/v1/umk/${state}`,{
           params: {
             id: umkId
           }
