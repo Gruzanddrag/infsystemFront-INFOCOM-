@@ -13,7 +13,7 @@
     name: 'CoreView',
     metaInfo () {
       return {
-        title: 'CMS EXP24',
+        title: 'Управление УМК',
       }
     },
   }

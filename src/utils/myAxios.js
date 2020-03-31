@@ -15,6 +15,10 @@ var inst = Axios.create()
 inst.interceptors.response.use(response => {
     store.commit('SET_AUTHENTICATED_STATUS', true)
     store.commit('SET_LOADING', false)
+    // console.log(response.config)
+    if(response.config.url.indexOf('/web/v1/report/') != -1) {
+        return response
+    }
     return response.data
 }, error => {
     let response = error.response

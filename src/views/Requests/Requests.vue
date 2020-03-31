@@ -40,6 +40,8 @@
             item-key="disciplineId"
             show-select
             v-model="selected"
+            sort-by="date"
+            :sort-desc="true"
           >
           <template v-slot:item.requestId = "{ item, header, value }">
             <div class="d-flex align-center">
@@ -66,8 +68,8 @@
                 </v-btn>
                 <v-btn
                   color="red"
-                  :disabled="item.requestStatusId === 3 || item.requestStatusId === 4"
-                  @click="deny(value)"
+                  :disabled="[3,4,5].includes(item.requestStatusId)"
+                  @click="turnDown(value)"
                   text>
                   Отказать
                 </v-btn>
@@ -76,16 +78,16 @@
                 <v-btn
                   color="blue"
                   @click="complete(value)"
-                  :disabled="item.requestStatusId === 3 || item.requestStatusId < 2"
+                  :disabled="item.requestStatusId !== 2"
                   text>
                   Исполнить
                 </v-btn>
                 <v-btn
                   color="red"
                   @click="deny(value)"
-                  :disabled="item.requestStatusId >= 3 || item.requestStatusId < 2"
+                  :disabled="item.requestStatusId !== 2"
                   text>
-                  Отклонить
+                  Неисполнить
                 </v-btn>
               </template>
             </div>
@@ -242,6 +244,16 @@ import { mapState } from 'vuex'
       },
       deny(id){
         this.$http.get(this.$store.state.apiuri + `/v1/requests/deny/`, {
+          params: {
+            id: id
+          }
+        })
+        .then(_ => {
+          this.refresh()
+        })
+      },
+      turnDown(id){
+        this.$http.get(this.$store.state.apiuri + `/v1/requests/turn-down/`, {
           params: {
             id: id
           }

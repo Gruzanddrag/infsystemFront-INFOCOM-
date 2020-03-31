@@ -14,11 +14,12 @@
             :search="search"
             item-key="disciplineId"
             v-model="selected"
+            sort-by="resourceMovementDate"
+            :sort-desc="true"
           >
-          <template v-slot:item.resourceId = "{ item, header, value }">
-            <div class="d-flex align-center">
-            </div>
-          </template>
+          <template v-slot:item.resourceMovementCountDescription = "{ item, value }">
+              <span :style="{ color: (value.indexOf('+') !== -1 ? '#43A047' : '#E64A19') }">{{ value }}</span>
+          </template> 
           <template v-slot:item.resourceCountAvalible = "{ item, value }">
               <span :style="{ color: (value != null ? 'black' : '#BDBDBD') }">{{ value == null ? 'Не задано' : value}}</span>
           </template> 
@@ -68,6 +69,10 @@ import { mapState } from 'vuex'
           {
             text: 'Причина движения',
             value: 'resourceMovementReason'
+          },
+          {
+            text: 'Описание движения',
+            value: 'resourceMovementCountDescription'
           },
           {
             text: 'Количество ресурса',

@@ -4,7 +4,7 @@ import { exception } from "vue-analytics";
 
 export default {
   // apiuri: 'http://localhost:8081/backend/web',
-  apiuri: 'http://infosystem-infocom-:8081/web',
+  apiuri: 'http://infosystem-infocom-/web',
   editorText: '',
   codes: {
     // заглушка

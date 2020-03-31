@@ -77,7 +77,7 @@
             <v-btn :disabled="item.resourceTypeId === 3" class="mr-6" text color="blue" @click="openDialog(item, 'produce')">
               Добавить
             </v-btn>
-            <v-btn :disabled="item.resourceTypeId === 3" text color="red" @click="openDialog(item, 'reduce')">
+            <v-btn :disabled="item.resourceTypeId === 3 || item.resourceCountAvalible < 1" text color="red" @click="openDialog(item, 'reduce')">
               Списать
             </v-btn>
           </template> 
@@ -140,7 +140,7 @@ import { mapState } from 'vuex'
             value: 'resourceType'
           },
           {
-            text: 'Количество ресурса',
+            text: 'Количество доступного ресурса',
             value: 'resourceCountAvalible'
           },
           {
@@ -160,7 +160,7 @@ import { mapState } from 'vuex'
         editRequestDialog: false,
         newDisciplineName: '',
         selected: [],
-        isInternet: true,
+        isInternet: false,
         isBook: true,
         isMeth: true,
         modeRule: v => v.indexOf(vv.mode) !== -1,

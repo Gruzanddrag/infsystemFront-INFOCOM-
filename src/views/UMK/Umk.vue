@@ -271,7 +271,8 @@
                             <v-form lazy-validation>
                               <v-text-field 
                                 color="grey"
-                                :disabled="item.resourceTypeId === 3"
+                                :disabled="item.resourceTypeId === 3 || item.isBooked === 1"
+                                :label="item.isBooked ? 'Зарезервировано':'' "
                                 type="number"
                                 :rules=[countRule(item)]
                                 v-model="item.count"
@@ -363,8 +364,9 @@
                     <v-form lazy-validation>
                       <v-text-field 
                         color="grey"
-                        :disabled="item.resourceTypeId === 3"
+                        :disabled="item.resourceTypeId === 3 || item.isBooked"
                         type="number"
+                        :hint="item.isBooked ? 'Зарезервировано':'' "
                         :rules=[countRule(item)]
                         v-model="item.count"
                       >
@@ -487,7 +489,7 @@ import { roleChekerMixin } from '../../mixins/roleCheckerMixin'
       TextEditor,
       RequestDialog
     },
-    data () {
+    data() {
       return {
         umkStudentRequirements: [],
         sections: [],
@@ -568,7 +570,7 @@ import { roleChekerMixin } from '../../mixins/roleCheckerMixin'
           },
         ],
         requestDialog: false,
-        countRule: v => v.count <= v.resourceCountAvalible || 'Недостаточно книг на складе'
+        countRule: v => parseInt(v.count) <= v.resourceCountAvalible || 'Недостаточно книг на складе'
       }
     },
     created: function(){
@@ -596,32 +598,32 @@ import { roleChekerMixin } from '../../mixins/roleCheckerMixin'
         })
       }
       
-        // initialization
-        // get Student Requrement Types
-        this.$http.get(`${this.$store.state.apiuri}/v1/student-requirement-type`)
-        .then(res => {
-          this.requirementTypes = res.data
-        })
-        // get Disciplines
-        this.$http.get(`${this.$store.state.apiuri}/v1/disciplines`)
-        .then(res => {
-          this.disciplines = res.data
-        })
-        // get Discipline types
-        this.$http.get(`${this.$store.state.apiuri}/v1/discipline-types`)
-        .then(res => {
-          this.disciplineTypes = res.data
-        })
-        // get resources
-        this.$http.get(`${this.$store.state.apiuri}/v1/resources`)
-        .then(res => {
-          this.resources = res.data
-        })
-        // get resources types
-        this.$http.get(`${this.$store.state.apiuri}/v1/resource-types`)
-        .then(res => {
-          this.resourceTypes = res.data
-        })
+      // initialization
+      // get Student Requrement Types
+      this.$http.get(`${this.$store.state.apiuri}/v1/student-requirement-type`)
+      .then(res => {
+        this.requirementTypes = res.data
+      })
+      // get Disciplines
+      this.$http.get(`${this.$store.state.apiuri}/v1/disciplines`)
+      .then(res => {
+        this.disciplines = res.data
+      })
+      // get Discipline types
+      this.$http.get(`${this.$store.state.apiuri}/v1/discipline-types`)
+      .then(res => {
+        this.disciplineTypes = res.data
+      })
+      // get resources
+      this.$http.get(`${this.$store.state.apiuri}/v1/resources`)
+      .then(res => {
+        this.resources = res.data
+      })
+      // get resources types
+      this.$http.get(`${this.$store.state.apiuri}/v1/resource-types`)
+      .then(res => {
+        this.resourceTypes = res.data
+      })
     },
     computed:{
       ...mapState(['apiuri']),

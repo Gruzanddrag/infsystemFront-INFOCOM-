@@ -45,7 +45,7 @@
           <v-list-item-title v-text="link.text" />
         </v-list-item>
         <div v-else>
-          <template v-if="link.show">
+          <template v-if="['admin', ...link.show].includes($store.state.user.role)">
             <v-divider inset v-if="i !== 0"> </v-divider>
             <v-subheader>{{link.text}}</v-subheader>
             <v-list>
@@ -75,7 +75,7 @@
 
 <script>
 // Utilities
-  import { mapMutations, mapState } from 'vuex'
+  import { mapMutations, mapState, mapGetters } from 'vuex'
   import { mdiDatabaseEdit, mdiFileDocumentBoxMultiple, mdiAlertBox } from '@mdi/js'
   import { roleChekerMixin } from '../../mixins/roleCheckerMixin'
 
@@ -89,11 +89,11 @@
         default: false,
       },
     },
-    data: (v) => ({
+    data: v => ({
       links: [
         {
           type: 'group',
-          show: v.$store.getters.isAdmin ||  v.$store.getters.isDepartmentHead ||  v.$store.getters.isDepartmentEmployee,
+          show: ['department-h', 'department-e'],
           text: 'Управление УМК',
           children:[
             {
@@ -112,7 +112,7 @@
         },
         {
           type: 'group',
-          show: v.$store.getters.isAdmin,
+          show: [], // only admin
           text: 'Админ панель',
           children:[
               {
@@ -131,7 +131,7 @@
         },
         {
           type: 'group',
-          show: v.$store.getters.isAdmin ||  v.$store.getters.isDepartmentHead ||  v.$store.getters.isLibraryEmployee ,
+          show: ['department-h', 'library-e'],
           text: 'Заявки в библиотеку',
           children:[
               {
@@ -144,7 +144,7 @@
         },
         {
           type: 'group',
-          show: v.$store.getters.isAdmin ||  v.$store.getters.isLibraryEmployee ,
+          show: ['library-e'],
           text: 'Библиотека',
           children:[
               {
@@ -165,7 +165,16 @@
     }),
 
     computed: {
+      // ...mapGetters(['isAdmin', 'isLibraryEmployee', 'isDepartmentHead', 'isDepartmentEmployee']),
       ...mapState('app', ['image', 'color']),
+      isAdmin: {
+        get() {
+          console.log(this.$store.state.user.role)
+          return this.$store.state.user.role === "admin"
+        },
+        set() {
+        }
+      },
       inputValue: {
         get () {
           return this.$store.state.app.drawer
